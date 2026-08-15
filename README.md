@@ -1,64 +1,64 @@
 # Auth API
 
-Backend de autenticación construido con Express, TypeScript y JWT.
+Authentication backend built with Express, TypeScript, and JWT.
 
-## Requisitos
+## Requirements
 
 - Node.js 22+
 - npm
 
-## Instalación
+## Installation
 
 ```bash
 npm install
 ```
 
-## Variables de entorno
+## Environment Variables
 
-Crea un archivo `.env` en la raíz del proyecto:
+Create a `.env` file in the project root:
 
 ```
 PORT=3000
-JWT_SECRET=tu-secreto
+JWT_SECRET=your-secret
 JWT_EXPIRES_IN=1h
 ```
 
-| Variable         | Descripción                     | Default      |
+| Variable         | Description                     | Default      |
 | ---------------- | ------------------------------- | ------------ |
-| `PORT`           | Puerto del servidor             | `3000`       |
-| `JWT_SECRET`     | Secreto para firmar los tokens  | `dev-secret` |
-| `JWT_EXPIRES_IN` | Expiración de los tokens        | `1h`         |
+| `PORT`           | Server port                     | `3000`       |
+| `JWT_SECRET`     | Secret used to sign tokens      | `dev-secret` |
+| `JWT_EXPIRES_IN` | Token expiration                | `1h`         |
 
-## Uso
+## Usage
 
-### Desarrollo
+### Development
 
 ```bash
 npm run dev
 ```
 
-### Compilar
+### Build
 
 ```bash
 npm run build
 ```
 
-### Producción
+### Production
 
 ```bash
 npm start
 ```
 
-### Docker (desarrollo)
+### Docker (development)
 
 ```bash
 docker build -f Dockerfile.dev -t auth-api-dev .
 docker run -p 3000:3000 -v $(pwd):/app auth-api-dev
 ```
 
-## Usuario demo
+## Demo User
 
-| Campo    | Valor          |
+| Field    | Value          |
 | -------- | -------------- |
 | Email    | `demo@demo.com` |
 | Password | `demo123`      |
@@ -82,7 +82,7 @@ Body:
 }
 ```
 
-Respuesta:
+Response:
 
 ```json
 {
@@ -97,7 +97,7 @@ Respuesta:
 }
 ```
 
-### Obtener usuario actual
+### Get current user
 
 `GET /api/v1/auth/me`
 
@@ -107,15 +107,15 @@ Header:
 Authorization: Bearer <token>
 ```
 
-## Estructura
+## Structure
 
 ```
 src/
-├── index.ts          # Punto de entrada del servidor
+├── index.ts          # Server entry point
 ├── middleware/
-│   └── auth.ts       # Middleware de autenticación JWT
+│   └── auth.ts       # JWT authentication middleware
 ├── routes/
-│   └── auth.ts       # Rutas de autenticación
-├── users.ts          # Usuarios y permisos
-└── password.ts       # Hash y verificación de contraseñas
+│   └── auth.ts       # Authentication routes
+├── users.ts          # Users and permissions
+└── password.ts       # Password hashing and verification
 ```
