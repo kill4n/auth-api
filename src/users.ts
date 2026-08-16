@@ -41,6 +41,54 @@ const adminPermissions: Permissions = {
   CanManageUsers: true,
 };
 
+const ownerPermissions: Permissions = {
+  CanCreateWorkspace: true,
+  CanViewWorkspace: true,
+  CanEditWorkspace: true,
+  CanDeleteWorkspace: true,
+  CanCreateProjects: true,
+  CanViewProjects: true,
+  CanEditProjects: true,
+  CanDeleteProjects: true,
+  CanManageUsers: false,
+};
+
+const editorPermissions: Permissions = {
+  CanCreateWorkspace: false,
+  CanViewWorkspace: true,
+  CanEditWorkspace: true,
+  CanDeleteWorkspace: false,
+  CanCreateProjects: true,
+  CanViewProjects: true,
+  CanEditProjects: true,
+  CanDeleteProjects: false,
+  CanManageUsers: false,
+};
+
+const viewerPermissions: Permissions = {
+  CanCreateWorkspace: false,
+  CanViewWorkspace: true,
+  CanEditWorkspace: false,
+  CanDeleteWorkspace: false,
+  CanCreateProjects: false,
+  CanViewProjects: true,
+  CanEditProjects: false,
+  CanDeleteProjects: false,
+  CanManageUsers: false,
+};
+
+const projectManagerPermissions: Permissions = {
+  CanCreateWorkspace: false,
+  CanViewWorkspace: true,
+  CanEditWorkspace: false,
+  CanDeleteWorkspace: false,
+  CanCreateProjects: true,
+  CanViewProjects: true,
+  CanEditProjects: true,
+  CanDeleteProjects: false,
+  CanManageUsers: false,
+};
+
 const users: User[] = [
   {
     id: "1",
@@ -49,6 +97,38 @@ const users: User[] = [
     role: "admin",
     permissions: adminPermissions,
     passwordHash: hashPassword("demo123"),
+  },
+  {
+    id: "2",
+    email: "owner@demo.com",
+    name: "Owner User",
+    role: "owner",
+    permissions: ownerPermissions,
+    passwordHash: hashPassword("owner123"),
+  },
+  {
+    id: "3",
+    email: "editor@demo.com",
+    name: "Editor User",
+    role: "editor",
+    permissions: editorPermissions,
+    passwordHash: hashPassword("editor123"),
+  },
+  {
+    id: "4",
+    email: "viewer@demo.com",
+    name: "Viewer User",
+    role: "viewer",
+    permissions: viewerPermissions,
+    passwordHash: hashPassword("viewer123"),
+  },
+  {
+    id: "5",
+    email: "pm@demo.com",
+    name: "Project Manager",
+    role: "pm",
+    permissions: projectManagerPermissions,
+    passwordHash: hashPassword("pm123"),
   },
 ];
 

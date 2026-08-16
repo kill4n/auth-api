@@ -53,15 +53,18 @@ npm start
 
 ```bash
 docker build -f Dockerfile.dev -t auth-api-dev .
-docker run -p 3000:3000 -v $(pwd):/app auth-api-dev
+docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app auth-api-dev
 ```
 
-## Demo User
+## Demo Users
 
-| Field    | Value          |
-| -------- | -------------- |
-| Email    | `demo@demo.com` |
-| Password | `demo123`      |
+| Field | Value |
+| ----- | ----- |
+| Admin | `demo@demo.com` / `demo123` |
+| Owner | `owner@demo.com` / `owner123` |
+| Editor | `editor@demo.com` / `editor123` |
+| Viewer | `viewer@demo.com` / `viewer123` |
+| Project Manager | `pm@demo.com` / `pm123` |
 
 ## Endpoints
 
@@ -92,7 +95,17 @@ Response:
     "email": "demo@demo.com",
     "name": "Demo User",
     "role": "admin",
-    "permissions": {}
+    "permissions": {
+      "CanCreateWorkspace": true,
+      "CanViewWorkspace": true,
+      "CanEditWorkspace": true,
+      "CanDeleteWorkspace": true,
+      "CanCreateProjects": true,
+      "CanViewProjects": true,
+      "CanEditProjects": true,
+      "CanDeleteProjects": true,
+      "CanManageUsers": true
+    }
   }
 }
 ```
@@ -119,3 +132,7 @@ src/
 ├── users.ts          # Users and permissions
 └── password.ts       # Password hashing and verification
 ```
+
+## License
+
+[MIT](LICENSE)
