@@ -15,7 +15,11 @@ npm install
 
 ## Environment Variables
 
-Create a `.env` file in the project root:
+Copy the template to create your local `.env` file:
+
+```bash
+cp .env.example .env
+```
 
 ```
 PORT=3000
