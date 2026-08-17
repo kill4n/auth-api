@@ -37,7 +37,7 @@ function getValidChallenge(challengeId: string): OtpChallenge | undefined {
 }
 
 function signToken(user: User): string {
-  return jwt.sign({ email: user.email, role: user.role, permissions: user.permissions }, JWT_SECRET, {
+  return jwt.sign({}, JWT_SECRET, {
     subject: user.id,
     expiresIn: (process.env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"]) || "1h",
   });

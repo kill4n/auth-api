@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000
-@token = paste-token-from-verify-response
+@token = {{verifyOtpFromLogin.response.body.$.token}}
 
 ### Health check
 # @name health

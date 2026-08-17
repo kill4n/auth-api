@@ -1,15 +1,10 @@
 import { hashPassword } from "./password";
 
 export interface Permissions {
-  CanCreateWorkspace: boolean;
-  CanViewWorkspace: boolean;
-  CanEditWorkspace: boolean;
-  CanDeleteWorkspace: boolean;
-  CanCreateProjects: boolean;
-  CanViewProjects: boolean;
-  CanEditProjects: boolean;
-  CanDeleteProjects: boolean;
-  CanManageUsers: boolean;
+  CanViewWorkspaces: boolean;
+  CanViewFiles: boolean;
+  CanViewDataGovernance: boolean;
+  CanViewTools: boolean;
 }
 
 export interface User {
@@ -30,63 +25,38 @@ export interface PublicUser {
 }
 
 const adminPermissions: Permissions = {
-  CanCreateWorkspace: true,
-  CanViewWorkspace: true,
-  CanEditWorkspace: true,
-  CanDeleteWorkspace: true,
-  CanCreateProjects: true,
-  CanViewProjects: true,
-  CanEditProjects: true,
-  CanDeleteProjects: true,
-  CanManageUsers: true,
+  CanViewWorkspaces: true,
+  CanViewFiles: true,
+  CanViewDataGovernance: true,
+  CanViewTools: true,
 };
 
 const ownerPermissions: Permissions = {
-  CanCreateWorkspace: true,
-  CanViewWorkspace: true,
-  CanEditWorkspace: true,
-  CanDeleteWorkspace: true,
-  CanCreateProjects: true,
-  CanViewProjects: true,
-  CanEditProjects: true,
-  CanDeleteProjects: true,
-  CanManageUsers: false,
+  CanViewWorkspaces: true,
+  CanViewFiles: true,
+  CanViewDataGovernance: true,
+  CanViewTools: true,
 };
 
 const editorPermissions: Permissions = {
-  CanCreateWorkspace: false,
-  CanViewWorkspace: true,
-  CanEditWorkspace: true,
-  CanDeleteWorkspace: false,
-  CanCreateProjects: true,
-  CanViewProjects: true,
-  CanEditProjects: true,
-  CanDeleteProjects: false,
-  CanManageUsers: false,
+  CanViewWorkspaces: true,
+  CanViewFiles: true,
+  CanViewDataGovernance: false,
+  CanViewTools: false,
 };
 
 const viewerPermissions: Permissions = {
-  CanCreateWorkspace: false,
-  CanViewWorkspace: true,
-  CanEditWorkspace: false,
-  CanDeleteWorkspace: false,
-  CanCreateProjects: false,
-  CanViewProjects: true,
-  CanEditProjects: false,
-  CanDeleteProjects: false,
-  CanManageUsers: false,
+  CanViewWorkspaces: true,
+  CanViewFiles: false,
+  CanViewDataGovernance: false,
+  CanViewTools: false,
 };
 
 const projectManagerPermissions: Permissions = {
-  CanCreateWorkspace: false,
-  CanViewWorkspace: true,
-  CanEditWorkspace: false,
-  CanDeleteWorkspace: false,
-  CanCreateProjects: true,
-  CanViewProjects: true,
-  CanEditProjects: true,
-  CanDeleteProjects: false,
-  CanManageUsers: false,
+  CanViewWorkspaces: false,
+  CanViewFiles: false,
+  CanViewDataGovernance: false,
+  CanViewTools: false,
 };
 
 const users: User[] = [

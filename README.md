@@ -1,6 +1,8 @@
-# Auth API
+# Express TypeScript Auth API
 
-Authentication backend built with Express, TypeScript, and JWT.
+Development authentication API built with Express, TypeScript, and JWT. It provides a two-step login flow with a mock OTP challenge and demo users for local UI integration.
+
+> The OTP flow is for development/demo use only. The fixed mock OTP (`123456`) and in-memory challenges are not production secure.
 
 ## Requirements
 
@@ -13,74 +15,86 @@ Authentication backend built with Express, TypeScript, and JWT.
 npm install
 ```
 
-## Environment Variables
+## Environment
 
-Copy the template to create your local `.env` file:
+Create a local environment file from the example:
 
 ```bash
 cp .env.example .env
 ```
 
-```
+```env
 PORT=3000
 JWT_SECRET=your-secret
 JWT_EXPIRES_IN=1h
 ```
 
-| Variable         | Description                     | Default      |
-| ---------------- | ------------------------------- | ------------ |
-| `PORT`           | Server port                     | `3000`       |
-| `JWT_SECRET`     | Secret used to sign tokens      | `dev-secret` |
-| `JWT_EXPIRES_IN` | Token expiration                | `1h`         |
+| Variable | Description | Default |
+| --- | --- | --- |
+| `PORT` | HTTP server port | `3000` |
+| `JWT_SECRET` | Secret used to sign JWTs | `dev-secret` |
+| `JWT_EXPIRES_IN` | JWT expiration | `1h` |
 
-## Usage
+## Run
 
-### Development
+Development:
 
 ```bash
 npm run dev
 ```
 
-### Build
+Build:
 
 ```bash
 npm run build
 ```
 
-### Production
+Start compiled app:
 
 ```bash
 npm start
 ```
 
-### Docker (development)
+Docker development image:
 
 ```bash
 docker build -f Dockerfile.dev -t auth-api-dev .
 docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app auth-api-dev
 ```
 
+## CORS
+
+CORS is configured to allow requests from:
+
+```text
+http://localhost:5173
+```
+
 ## Demo Users
 
-| Field | Value |
-| ----- | ----- |
-| Admin | `demo@demo.com` / `demo123` |
-| Owner | `owner@demo.com` / `owner123` |
-| Editor | `editor@demo.com` / `editor123` |
-| Viewer | `viewer@demo.com` / `viewer123` |
-| Project Manager | `pm@demo.com` / `pm123` |
+| Role | Email | Password | CanViewWorkspaces | CanViewFiles | CanViewDataGovernance | CanViewTools |
+| --- | --- | --- | --- | --- | --- | --- |
+| Admin | `demo@demo.com` | `demo123` | Yes | Yes | Yes | Yes |
+| Owner | `owner@demo.com` | `owner123` | Yes | Yes | Yes | Yes |
+| Editor | `editor@demo.com` | `editor123` | Yes | Yes | No | No |
+| Viewer | `viewer@demo.com` | `viewer123` | Yes | No | No | No |
+| Project Manager | `pm@demo.com` | `pm123` | No | No | No | No |
 
 ## Endpoints
 
-### Health check
+### `GET /health`
 
-`GET /health`
+Returns service health.
 
-### Login
+```json
+{ "status": "ok" }
+```
 
-`POST /api/v1/auth/login`
+### `POST /api/v1/auth/login`
 
-Body:
+Validates email and password, then creates an OTP challenge. It does not return a token or user.
+
+Request:
 
 ```json
 {
@@ -93,48 +107,75 @@ Response:
 
 ```json
 {
-  "token": "eyJ...",
+  "requiresOtp": true,
+  "challengeId": "<challenge-id>"
+}
+```
+
+### `POST /api/v1/auth/otp/verify`
+
+Verifies the challenge with the mock OTP `123456` and returns the JWT token and current user.
+
+Request:
+
+```json
+{
+  "challengeId": "<challenge-id>",
+  "otp": "123456"
+}
+```
+
+Response:
+
+```json
+{
+  "token": "<jwt>",
   "user": {
     "id": "1",
     "email": "demo@demo.com",
     "name": "Demo User",
     "role": "admin",
     "permissions": {
-      "CanCreateWorkspace": true,
-      "CanViewWorkspace": true,
-      "CanEditWorkspace": true,
-      "CanDeleteWorkspace": true,
-      "CanCreateProjects": true,
-      "CanViewProjects": true,
-      "CanEditProjects": true,
-      "CanDeleteProjects": true,
-      "CanManageUsers": true
+      "CanViewWorkspaces": true,
+      "CanViewFiles": true,
+      "CanViewDataGovernance": true,
+      "CanViewTools": true
     }
   }
 }
 ```
 
-### Get current user
+### `POST /api/v1/auth/otp/request`
 
-`GET /api/v1/auth/me`
+Disabled. Returns HTTP `410 Gone`.
+
+### `GET /api/v1/auth/me`
+
+Requires a Bearer token and returns the current user.
 
 Header:
 
-```
+```text
 Authorization: Bearer <token>
 ```
 
-## Structure
+Response:
 
-```
-src/
-├── index.ts          # Server entry point
-├── middleware/
-│   └── auth.ts       # JWT authentication middleware
-├── routes/
-│   └── auth.ts       # Authentication routes
-├── users.ts          # Users and permissions
-└── password.ts       # Password hashing and verification
+```json
+{
+  "user": {
+    "id": "1",
+    "email": "demo@demo.com",
+    "name": "Demo User",
+    "role": "admin",
+    "permissions": {
+      "CanViewWorkspaces": true,
+      "CanViewFiles": true,
+      "CanViewDataGovernance": true,
+      "CanViewTools": true
+    }
+  }
+}
 ```
 
 ## License
