@@ -1,10 +1,12 @@
 @baseUrl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRlbW9AZGVtby5jb20iLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9ucyI6eyJDYW5DcmVhdGVXb3Jrc3BhY2UiOnRydWUsIkNhblZpZXdXb3Jrc3BhY2UiOnRydWUsIkNhbkVkaXRXb3Jrc3BhY2UiOnRydWUsIkNhbkRlbGV0ZVdvcmtzcGFjZSI6dHJ1ZSwiQ2FuQ3JlYXRlUHJvamVjdHMiOnRydWUsIkNhblZpZXdQcm9qZWN0cyI6dHJ1ZSwiQ2FuRWRpdFByb2plY3RzIjp0cnVlLCJDYW5EZWxldGVQcm9qZWN0cyI6dHJ1ZSwiQ2FuTWFuYWdlVXNlcnMiOnRydWV9LCJpYXQiOjE3ODY4MjczMjcsImV4cCI6MTc4NjgzMDkyNywic3ViIjoiMSJ9.nArbtPaLF3AV1I9R5qcN2rzaUnI2dVilpXcuexwjoM8
+@token = paste-token-from-verify-response
 
 ### Health check
+# @name health
 GET {{baseUrl}}/health
 
 ### authentication
+# @name login
 POST {{baseUrl}}/api/v1/auth/login
 Content-Type: application/json
 
@@ -13,6 +15,17 @@ Content-Type: application/json
   "password": "demo123"
 }
 
+### verify OTP from login challenge
+# @name verifyOtpFromLogin
+POST {{baseUrl}}/api/v1/auth/otp/verify
+Content-Type: application/json
+
+{
+  "challengeId": "{{login.response.body.$.challengeId}}",
+  "otp": "123456"
+}
+
 ### get me
+# @name me
 GET {{baseUrl}}/api/v1/auth/me
 Authorization: Bearer {{token}}
